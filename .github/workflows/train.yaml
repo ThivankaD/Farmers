@@ -1,9 +1,15 @@
-name: farmers
+name: model-wine
 on: [push]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write        # needed for cml-send-comment
+
 jobs:
   run:
-    runs-on: [ubuntu-latest]
-    container: docker://dvcorg/cml-py3:latest
+    runs-on: ubuntu-22.04
+    container: docker://ghcr.io/iterative/cml:0-dvc2-base1
     steps:
       - uses: actions/checkout@v2
       - name: cml_run
@@ -11,12 +17,13 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
           pip install -r requirements.txt
-          dvc repro 
+          dvc repro
 
           git fetch --prune
           dvc metrics diff --show-md master > report.md
 
-          # Add figure to the report
-          echo "## Validating results by region"
+          # Add figure to report
+          echo "## Validaing results by region"
           cml-publish by_region.png --md >> report.md
           cml-send-comment report.md
+        
