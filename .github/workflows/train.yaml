@@ -29,6 +29,6 @@ jobs:
           echo "## Validating results by region" >> report.md
           echo "![Validation results by region](by_region.png)" >> report.md
 
-          # Post the report as a GitHub comment
-          cml comment create --file report.md
+          # Post the report as a GitHub comment (CML in this image expects a positional file argument)
+          cml comment create report.md
         
