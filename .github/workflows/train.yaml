@@ -1,4 +1,4 @@
-name: model-wine
+name: model-Farmer
 on: [push]
 
 permissions:
