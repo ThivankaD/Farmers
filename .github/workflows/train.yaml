@@ -18,6 +18,8 @@ jobs:
         run: |
           pip install -r requirements.txt
           dvc repro
+          # Fix Git "dubious ownership" inside GitHub runner
+          git config --global --add safe.directory /__w/Farmers/Farmers
 
           git fetch --prune
           dvc metrics diff --show-md master > report.md
