@@ -14,7 +14,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: cml_run
         env:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           pip install -r requirements.txt
           dvc repro
@@ -24,8 +24,11 @@ jobs:
           git fetch --prune
           dvc metrics diff --md master > report.md
 
-          # Add figure to report
-          echo "## Validaing results by region"
-          cml-publish by_region.png --md >> report.md
-          cml-send-comment report.md
+          # Add figure to report (CML v2 style: inline image)
+          echo "" >> report.md
+          echo "## Validating results by region" >> report.md
+          echo "![Validation results by region](by_region.png)" >> report.md
+
+          # Post the report as a GitHub comment
+          cml comment create --file report.md
         
