@@ -4,3 +4,6 @@ Modeling data from [Kreft et al. 2020](https://www.sciencedirect.com/science/art
 
 
 .venv\Scripts\activate
+
+
+dvc stage add -n get_data -d get_data.py -o data_raw.csv python get_data.py
